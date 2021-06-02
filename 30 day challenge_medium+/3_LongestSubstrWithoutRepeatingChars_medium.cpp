@@ -1,24 +1,21 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int tempMax = 0, maxLen = 0;
-        vector<int>hash(100, 0);
+        // for storing chars, symbols, spaces etc
+        vector<int>hash(256, -1);
+        // start is the last index where repeatance occured
+        int start = -1, maxLen = 0;
         for (int i = 0; i < s.size(); i++){
-            int index = int(s[i]) - 32;
-            cout<<"index: "<<index;
-            if (hash[index] == 0){
-                tempMax++;
-            }
-            else{
-                maxLen = max(maxLen, tempMax);
-                tempMax = 1;
-                hash.clear();
-                fill(hash.begin(), hash.end(),0);
-            }
-            hash[index]++;
-
+            // if repeatance occured
+            if (hash[s[i]] > start ){
+                // start is the last occured index,
+                // if index occured double it saves current index into hash[s[i]]
+                start = hash[s[i]];
+            } 
+            // update index of s each time 
+            hash[s[i]] = i;
+            maxLen = max(maxLen, i - start);
         }
-        return maxLen > tempMax ? maxLen : tempMax;
-        
+        return maxLen;
     }
 };
