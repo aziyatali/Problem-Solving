@@ -1,22 +1,21 @@
 class Solution {
 public:
+    int gcd(int a, int b){
+        if (b == 0){
+            return a;
+        }
+        return gcd(b, a%b);
+    }
+    
     bool hasGroupsSizeX(vector<int>& nums) {
-        if (nums.size() < 2){
-            return false;
-        }
+        int res = 0;
         unordered_map<int, int>hash;
-        for (int i = 0; i < nums.size(); i++){
-            hash[nums[i]]++;
+        for (auto i : nums){
+            hash[i]++;
         }
-        int tempComp = -1, ansComp = -1, count = 0;
-        for (auto it = hash.begin(); it != hash.end(); it++){
-            tempComp = it->second;
-            if (tempComp < 2 || tempComp!= ansComp){
-                return false;                
-            }
-            cout<<"it: "<<tempComp;
-            ansComp = tempComp;
+        for (auto i : hash){
+            res = gcd(i.second, res);
         }
-        return true;
+        return res > 1;
     }
 };
