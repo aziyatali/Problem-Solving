@@ -1,12 +1,5 @@
 class Solution {
 public:
-    int gcd(int a, int b){
-        if (b == 0){
-            return a;
-        }
-        return gcd(b, a%b);
-    }
-    
     bool hasGroupsSizeX(vector<int>& nums) {
         int res = 0;
         unordered_map<int, int>hash;
@@ -14,7 +7,7 @@ public:
             hash[i]++;
         }
         for (auto i : hash){
-            res = gcd(i.second, res);
+            res = __gcd(i.second, res);
         }
         return res > 1;
     }
