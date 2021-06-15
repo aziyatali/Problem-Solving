@@ -10,34 +10,23 @@
  */
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode * sum = l1;
-        int remainder = 0;
-        addNumbers(l1, l2, sum, remainder);
-        return sum;
-        
+ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+    ListNode sum(0), *p = &sum;
+    cout<<sum.val;
+    int extra = 0;
+    while(l1 || l2 || extra){
+        if (l1){
+            extra += l1->val;
+            l1 = l1->next;
+        }
+        if (l2){
+            extra += l2->val;
+            l2 = l2->next;
+        }
+        p->next = new ListNode(extra % 10);
+        extra/=10;
+        p = p->next;
     }
-    void addNumbers(ListNode * l1, ListNode *l2, ListNode *sum, int remainder){
-        if (l1==NULL && l2==NULL){
-            return;
-        }
-        
-        cout<<"l1: "<<l1->val<<endl;
-        cout<<"l2: "<<l2->val<<endl;
-
-        sum->val = (l1->val + l2->val+remainder)%10;
-        remainder=(l1->val + l2->val)/10;
-
-        // sum = sum->next;
-        // l1 = l1->next;
-        // l2 = l2->next;
-        if (l1->next==NULL && l2->next==NULL && remainder>0){
-            sum->next = sum;
-            sum = sum->next;
-            sum->val = remainder;
-        }
-        cout<<": "<<remainder<<endl;
-        addNumbers(l1->next, l2->next, sum->next, remainder);
-
+    return sum.next;
     }
 };
