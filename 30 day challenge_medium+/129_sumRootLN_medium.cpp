@@ -11,21 +11,27 @@
  */
 class Solution {
 public:
+    int total;
     int sumNumbers(TreeNode* root) {
         if (!root){
             return 0;
         }
+        total = 0;
         int sum = 0;
         summer(root, sum);
-        return sum;
+        return total;
         
     }
     void summer(TreeNode * root, int sum){
-        string ans;
         if(!root){
-            sum+=(ans-'0');
+            return;
         }
-        ans.push_back(root->val);
+        sum = sum*10 + root->val;
+        
+        if(!root->left && !root->right){
+            total+=sum;
+            return;
+        }
         summer(root->left, sum);
         summer(root->right, sum);
     }
