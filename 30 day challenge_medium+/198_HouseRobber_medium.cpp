@@ -1,15 +1,13 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int odd = 0, even = 0;
-        for (int i = 0; i < nums.size(); i++){
-            if (i %2 == 0){
-                even+=nums[i];
-            }else{
-                odd+=nums[i];
-            }
+//         Time limit exceeds
+        return robber(nums, nums.size()-1);
+    }
+    int robber(vector<int>& nums, int i){
+        if ( i < 0){
+            return 0;
         }
-        return even>odd?even:odd;
-        
+        return max(robber(nums, i-2)+nums[i], robber(nums, i-1));
     }
 };
