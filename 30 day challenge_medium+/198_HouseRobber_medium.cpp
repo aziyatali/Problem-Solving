@@ -8,11 +8,11 @@ public:
             return max(nums[0], nums[1]);
         }
         vector<int>ans(nums.size()+1, 0);
-        ans[0] = nums[0];
-        ans[1] = nums[1];
-        for (int i = 2; i < nums.size(); i++){
-            ans[i] = max(ans[i-2]+nums[i], ans[i-1]);
+        ans[0] = 0;
+        ans[1] = nums[0];
+        for (int i = 1; i < nums.size(); i++){
+            ans[i+1] = max(ans[i-1]+nums[i], ans[i]);
         }
-        return ans[nums.size()-1];
+        return ans[nums.size()];
     }
 };
