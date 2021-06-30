@@ -1,37 +1,30 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
-      int left = 0, right = nums.size()-1;
-       vector<int>ans(2, -1);
-        while(left < right){
-            int mid = (right+left)/2;
-            if (target > nums[mid]){
-                left = mid+1; 
-            }
-            else{
-                right = mid;
-            }
+        int i = 0, j = nums.size()-1;
+        vector<int> ret(2, -1);
+        if (!nums.size()){
+            return ret;
         }
-        
-        if (nums[left] == target){
-            ans[0] = left;
+        // Search for the left one
+        while (i < j)
+        {
+            int mid = (i + j) /2;
+            if (nums[mid] < target) i = mid + 1;
+            else j = mid;
         }
-        
-        right = nums.size()-1;
-        
-        while (left < right){
-            int mid  = (right+left)/2 + 1;
-            if (nums[mid] > target){
-                right = mid - 1;
-            }else{
-                left = mid;
-            }
+        if (nums[i]!=target) return ret;
+        else ret[0] = i;
+
+        // Search for the right one
+        j = nums.size()-1;  // We don't have to set i to 0 the second time.
+        while (i < j)
+        {
+            int mid = (i + j) /2 + 1;	// Make mid biased to the right
+            if (nums[mid] > target) j = mid - 1;  
+            else i = mid;				// So that this won't make the search range stuck.
         }
-        
-        if (ans[right] == target){
-            ans[1] = right;   
-        }
-        return ans;
-            
+        ret[1] = j;
+        return ret;            
     }
 };
