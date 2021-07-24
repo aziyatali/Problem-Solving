@@ -1,25 +1,61 @@
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        //used for rows, used2 for columns, used3 for sub boxes
-        int used[9][9] = {0}, used2[9][9] = {0}, used3[9][9] = {0};
         
-        for (int i = 0; i < board.size(); i++){
-            for (int j = 0; j < board[i].size(); j++){
-                if (board[i][j] != '.'){
-                    // cout<<" board[i][j]: "<<board[i][j];
-                    // k calculates sub boxes, 
-                    int idx = board[i][j]-'0'-1, k = i / 3 * 3 + j/3;
-                    
-                    if (used[i][idx] || used2[j][idx] || used3[k][idx]){            
+        // for sub-boxes
+        
+        for (int i = 0; i < 9; i+= 3){
+            for (int j = 0; j < 9; j+= 3){
+                set<char> st;
+               for (int k = i; k < i + 3; k ++){
+                   for(int l = j; l < j + 3; l ++){
+                       
+                       if(st.find(board[k][l]) != st.end())
                         return false;
-                    }
+                        st.insert(board[k][l]);
+                   }
+               }
+            
+            }
+        }
+
+        // for row check       
+        map<pair<int, char>, int>row, col;
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++){
+                if (board[i][j]!= '.'){
+
+                    auto rw = make_pair(i, board[i][j]);
+                    auto cl = make_pair(j, board[i][j]);
+
+                    if(row[rw] == 0)
+                        row[rw] ++;
+                    else 
+                        return false;
+
+                    if(col[cl] == 0)
+                        col[cl] ++;
+                    else
+                        return false;
+                   
                     
-                    used[i][idx] = used2[j][idx] = used3[k][idx] = 1;
                 }
             }
+    
         }
         
         return true;
+        
     }
 };
+
+
+/*
+
+    
+
+
+
+
+
+*/
