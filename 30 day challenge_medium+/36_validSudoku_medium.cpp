@@ -2,60 +2,54 @@ class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
         
-        // for sub-boxes
+        vector<vector<int>>sub(9, vector<int>(9, 0));
+        vector<vector<int>>row(9, vector<int>(9, 0));
+        vector<vector<int>>col(9, vector<int>(9, 0));
         
-        for (int i = 0; i < 9; i+= 3){
-            for (int j = 0; j < 9; j+= 3){
-                set<char> st;
-               for (int k = i; k < i + 3; k ++){
-                   for(int l = j; l < j + 3; l ++){
-                       
-                       if(st.find(board[k][l]) != st.end())
-                        return false;
-                        st.insert(board[k][l]);
-                   }
-               }
-            
-            }
-        }
-
-        // for row check       
-        map<pair<int, char>, int>row, col;
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 9; j++){
-                if (board[i][j]!= '.'){
-
-                    auto rw = make_pair(i, board[i][j]);
-                    auto cl = make_pair(j, board[i][j]);
-
-                    if(row[rw] == 0)
-                        row[rw] ++;
-                    else 
-                        return false;
-
-                    if(col[cl] == 0)
-                        col[cl] ++;
-                    else
-                        return false;
-                   
+                
+                // for index case
+                if (board[i][j] != '.'){
                     
+                int num = board[i][j] - '0'-1, k = i / 3 * 3 + j / 3;
+                if (row[i][num]){
+                    return false;
                 }
+                if (col[j][num]){
+                    return false;
+                }
+                if (sub[k][num]){
+                    return false;
+                }
+                col[j][num] = row[i][num] =  sub[k][num] = 1;
+                }
+                
             }
-    
         }
         
+        // sub boxes case
+//         for (int i = 0; i < 0; i += 3){
+//             for (int j = 0; j < 9; j += 3){
+                
+//                 // sub boxes case index
+//                 //tracing via indecies
+//                 int z = 0;
+//                 for (int k = i; k < i+3; k++){
+//                     for (int l = j; l < j+3; l++){
+//                         int idx = board[k][l] - '0'-1;
+//                         if (board[k][l] != '.'){
+//                             if (sub[z][idx]){
+//                                 return false;
+//                             }
+//                             sub[z][idx]++;
+//                         }
+//                         z++;
+//                     }
+//                 }
+//             }
+//         }
         return true;
         
     }
 };
-
-
-/*
-
-    
-
-
-
-
-
-*/
